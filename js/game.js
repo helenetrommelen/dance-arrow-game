@@ -21,6 +21,7 @@ class Game {
           miss: false
         }
         this.songSound;
+        this.accuracyText = '';
 
     }
 
@@ -32,16 +33,34 @@ class Game {
       if (code === 39 && this.currentArrow.right && this.multiplier.perfect){
         this.score += 100;
         this.streak++;
+        this.accuracyText = 'PERFECT'
       } if (code === 39 && this.currentArrow.right && this.multiplier.good){
         this.score += 50;
         this.streak++;
+        this.accuracyText = 'GOOD'
       } if (code === 39 && this.currentArrow.right && this.multiplier.bad){
         this.score += 20;
         this.streak++;
+        this.accuracyText = 'BAD'
       } else if (code === 39 && !this.currentArrow.right){
         console.log('you missed')
         this.streak = 0;
+        this.accuracyText = 'MISS'
       }
+
+      // if (code === 38 && this.currentArrow.up && this.multiplier.perfect){
+      //   this.score += 100;
+      //   this.streak++;
+      // } if (code === 38 && this.currentArrow.up && this.multiplier.good){
+      //   this.score += 50;
+      //   this.streak++;
+      // } if (code === 38 && this.currentArrow.up && this.multiplier.bad){
+      //   this.score += 20;
+      //   this.streak++;
+      // } else if (code === 38 && !this.currentArrow.up){
+      //   console.log('you missed')
+      //   this.streak = 0;
+      // }
 
     }
 
@@ -95,31 +114,15 @@ class Game {
 
       this.movingArrowRight.forEach(function(arrow){
         arrow.draw();
-        //console.log('ARROW WITHIN RANGE', arrow.targetOpen);
-        // const scoreElement = arrow.targetOpen;
-        // // console.log(scoreElement);
-        // if (scoreElement === 'perfect'){
-  
-        //    this.score +=100;
-        //    console.log(this.score)
-        // }
-      })
+      });
 
-      //if (movingArrowRight.hits(this.))
+      textSize(48);
+      fill(255,255,255);
+      text(`${this.accuracyText}`,100, 400);
 
       
       //console.log(`${timeSinceGameStart} draw`);
       //console.log(`${this.time} draw`);
-      
-
-
-
-      //do something every beat
-      //loop through array of beats.
-      //draw new arrow object
-      //check for every bea
-      //score system
-
 
     }
     
