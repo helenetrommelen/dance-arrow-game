@@ -1,4 +1,6 @@
 const game = new Game();
+const beatLine = 120;
+let songSound;
 
 
 function preload(){
@@ -15,6 +17,7 @@ function setup(){
 
 function draw(){
     game.draw();
+
     // console.log(`score`, game.hit);
 }
 

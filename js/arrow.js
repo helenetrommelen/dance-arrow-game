@@ -4,33 +4,40 @@ class Arrow {
     this.arrowImg = arrowImg;
     this.x = x;
     this.y = height - 500 //they start just cunder the screen
-    this.targetOpen;
+    // this.targetOpen = {
+    //   perfect: false,
+    //   good: false,
+    //   bad: false,
+    //   miss: false
+    // }
 
   }
 
   withinHittingRange(){
     //check for collision
-    // console.log(this.arrowImg);
-    if (this.direction === 'right' && (this.y < 130 && this.y > 110)){
-      console.log('right arrow detected');
+  
+    if(this.direction === 'right' && this.y > beatLine - 25 && this.y < beatLine + 25){
       game.currentArrow.right = true;
-    } else {
-      game.currentArrow.right = false;
     }
-    // if (this.y < 130 && this.y > 110){
-    //     let score = 'perfect';
-    //     console.log('arrow target is open for perfect hit');
-    //     return score;
-    // }
-
-
+    if (this.direction === 'right' && (this.y <= beatLine + 2 && this.y >= beatLine - 2)){
+          //console.log('right arrow detected: perfect');
+          game.multiplier.perfect = true;
+        } else if (this.direction === 'right' && (this.y > beatLine-10 && this.y<beatLine-2) || (this.y > beatLine+2 && this.y < beatLine+10)){
+          //console.log('right arrow detected: good');
+          game.multiplier.good = true;
+        }  else if (this.direction === 'right' && (this.y > beatLine-25 && this.y<beatLine-10) || (this.y > beatLine+10 && this.y < beatLine+25)){
+          //console.log('right arrow detected: bad');
+          
+          game.multiplier.good = true;
+        } else {
+          game.currentArrow.right = false;
+          game.multiplier.perfect = false;
+          game.multiplier.good = false;
+        }
   }
 
   draw(){
-    //console.log('draw arrow moving')
-    //console.log(`${this.time} draw`);
     this.y--; //speed with wich the arrow moves upwards
-    // console.log(this.arrowImg);
     image(this.arrowImg, this.x, this.y, 100, 100);
     this.withinHittingRange();
     // image(game.movingArrowDown, 100, yStatArr);
@@ -38,3 +45,4 @@ class Arrow {
     // image(game.movingArrowRight, 300, yStatArr); 
   }
 }
+

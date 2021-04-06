@@ -7,13 +7,21 @@ class Game {
           up: false,
           right: false 
         }; //should say which arrows are overlapping, and if yes which one it is
-        this.movingArrowLeft;
-        this.movingArrowDown;
-        this.movingArrowUp;
+        // this.movingArrowLeft;
+        // this.movingArrowDown;
+        // this.movingArrowUp;
         //this.movingArrowRight;
         this.time;
         this.score = 0;
-        //this.beat = 0;
+        this.streak = 0;
+        this.multiplier = {
+          perfect: false,
+          good: false,
+          bad: false,
+          miss: false
+        }
+        this.songSound;
+
     }
 
     checkCorrectKey(code){
@@ -21,11 +29,18 @@ class Game {
       // if (code === 39 && this.movingArrowRight.direction ==='right'){
       //   console.log('you hit the right arrow')
       // }
-
-      if (code === 39 && this.currentArrow.right){
-        console.log('you hit the right arrow')
+      if (code === 39 && this.currentArrow.right && this.multiplier.perfect){
+        this.score += 100;
+        this.streak++;
+      } if (code === 39 && this.currentArrow.right && this.multiplier.good){
+        this.score += 50;
+        this.streak++;
+      } if (code === 39 && this.currentArrow.right && this.multiplier.bad){
+        this.score += 20;
+        this.streak++;
       } else if (code === 39 && !this.currentArrow.right){
         console.log('you missed')
+        this.streak = 0;
       }
 
     }
@@ -55,6 +70,11 @@ class Game {
         this.movingArrowDownImg = loadImage('/dance-arrow-game/assets/arrow-color-down.png');
         this.movingArrowUpImg = loadImage('/dance-arrow-game/assets/arrow-color-up.png');
         this.movingArrowRightImg = loadImage('/dance-arrow-game/assets/arrow-color-right.png');
+
+        //load sound
+        // soundFormats('mp3', 'ogg');
+        // songSound = loadSound('/dance-arrow-game/assets/dance-scene-hq.mp3');
+        
     }
 
     draw(){
@@ -65,8 +85,10 @@ class Game {
       this.time = timeSinceGameStart;
       //console.log(`${this.time} draw`);
       this.movingArrowLeft.draw();
+      
+      
 
-      if(this.time % 3000 < 20) {
+      if(this.time % 2000 < 20) {
         //console.log('do something every 1s')
         this.movingArrowRight.push(new Arrow(this.movingArrowRightImg,300, 'right'))
       }
