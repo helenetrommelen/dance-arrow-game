@@ -1,6 +1,9 @@
-#gameContainer {
-    width: 50%;
-    height: 100%;
+body {
+    margin-top: 100px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    font-family: "Spartan", sans-serif;
     background-color: black;
-    border: 1px solid black;
-}
+  }

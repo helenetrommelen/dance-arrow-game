@@ -27,7 +27,8 @@ class Arrow {
 
   withinHittingRange(){
     //check for collision
-  
+    
+    //right arrows
     if(this.direction === 'right' && this.y > beatLine - 25 && this.y < beatLine + 25){
       this.currentArrow.right = true;
       game.activeArrow = this;
@@ -43,29 +44,32 @@ class Arrow {
       //console.log('right arrow detected: bad');
       this.multiplier.bad = true;
       game.activeArrow = this;
-}
+    }
+    
+    //left arrows
+    if(this.direction === 'left' && this.y > beatLine - 25 && this.y < beatLine + 25){
+      this.currentArrow.left = true;
+      game.activeArrowLeft = this;
+      //console.log(game.activeArrowLeft);
+    }if (this.direction === 'left' && (this.y <= beatLine + 2 && this.y >= beatLine - 2)){
+      this.multiplier.perfect = true;
+      game.activeArrowLeft = this;
+    } else if (this.direction === 'left' && (this.y >= beatLine-10 && this.y<beatLine-2) || (this.y > beatLine+2 && this.y <= beatLine+10)){
+      //console.log('left arrow detected: good');
+      this.multiplier.good = true;
+      game.activeArrowLeft = this;
+    }  else if (this.direction === 'left' && (this.y > beatLine-25 && this.y<beatLine-10) || (this.y > beatLine+10 && this.y < beatLine+25)){
+      //console.log('left arrow detected: bad');
+      this.multiplier.bad = true;
+      game.activeArrowLeft = this;
+    }
     // else if (this.direction === 'right' && this.y < beatLine - 25){
     //   console.log('right arrow detected: miss')
     //   game.multiplier.miss = true;
     // }
-
-    // if(this.direction === 'up' && this.y > beatLine - 25 && this.y < beatLine + 25){
-    //   game.currentArrow.up = true;
-    // }if (this.direction === 'up' && (this.y <= beatLine + 2 && this.y >= beatLine - 2)){
-    //   //console.log('up arrow detected: perfect');
-    //   game.multiplier.perfect = true;
-    // } else if (this.direction === 'up' && (this.y > beatLine-10 && this.y<beatLine-2) || (this.y > beatLine+2 && this.y < beatLine+10)){
-    //   //console.log('up arrow detected: good');
-    //   game.multiplier.good = true;
-    // }  else if (this.direction === 'up' && (this.y > beatLine-25 && this.y<beatLine-10) || (this.y > beatLine+10 && this.y < beatLine+25)){
-    //   //console.log('up arrow detected: bad');
-    //   game.multiplier.bad = true;
-    // } else if (this.direction === 'up' && this.y < beatLine - 25){
-    //   console.log('up arrow detected: miss')
-    //   game.multiplier.miss = true;
-    // }
     else {
       this.currentArrow.right = false;
+      this.currentArrow.left = false;
       this.multiplier.perfect = false;
       this.multiplier.good = false;
       this.multiplier.bad = false;

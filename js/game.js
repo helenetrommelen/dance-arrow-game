@@ -2,33 +2,24 @@
 
 class Game {
     constructor(){
-        //this.interval = setInterval(this.draw, 1000);
-        // this.currentArrow ={
-        //   left: false,
-        //   down: false,
-        //   up: false,
-        //   right: false 
-      //  }; //should say which arrows are overlapping, and if yes which one it is
-        // this.movingArrowLeft;
+        this.hasStarted = false;
+        this.movingArrowLeft = [];
         // this.movingArrowDown;
         // this.movingArrowUp;
         this.movingArrowRight = [];
         this.time;
         this.score = 0;
         this.streak = 0;
-        // this.multiplier = {
-        //   perfect: false,
-        //   good: false,
-        //   bad: false,
-        //   miss: false
-        // }
         this.wasClicked = false;
         this.songSound;
         this.accuracyText = '';
         this.activeArrow = [];
+        this.activeArrowLeft = [];
     }
 
-
+    startGame(){
+      this.hasStarted= true;
+    }
 
     preload(){
         this.backgroundImage = loadImage('/dance-arrow-game/assets/background-1.png');
@@ -54,50 +45,52 @@ class Game {
     setup(){
       this.background = new Background();
       //songSound.play();
-      this.movingArrowLeft = new Arrow(this.movingArrowLeftImg,0);//have to go inside the cons
-
-      //this.movingArrowRight = [];
-      
-
     }
 
     draw(){
+      
       clear();
       this.background.draw();
-      let timeSinceGameStart = millis();
-      this.time = timeSinceGameStart;
-      //console.log(`${this.time} draw`);
 
-      //left arrow
-      this.movingArrowLeft.draw();
+      if (game.hasStarted){
+        let timeSinceGameStart = millis();
+        this.time = timeSinceGameStart;
+        //console.log(`${this.time} draw`);
 
-      //right arrow
-      if(this.time % 2000 < 20) {
-        //console.log('do something every 1s')
-        this.movingArrowRight.push(new Arrow(this.movingArrowRightImg,300, 'right'))
-      }
+        //left arrow
+        if(this.time % 3500 < 20) {
+          this.movingArrowRight.push(new Arrow(this.movingArrowLeftImg,0, 'left'))
+        }
 
-      this.movingArrowRight.forEach(function(arrow){
-        arrow.draw();
-      });
-
-      //console.log(this.movingArrowRight.find(arrow => arrow === this.activeArrow), 'active arrow');
-      //console.log(this.movingArrowRight.length);
-
-      //show accuracy text
-      textSize(48);
-      fill(255,255,255);
-      text(`${this.accuracyText}`,100, 400);
-
+        //right arrows
+        if(this.time % 2000 < 20) {
+          this.movingArrowRight.push(new Arrow(this.movingArrowRightImg,300, 'right'))
+        }
       
-      //console.log(`${timeSinceGameStart} draw`);
-      //console.log(`${this.time} draw`);
-    }
+        this.movingArrowRight.forEach(function(arrow){
+          arrow.draw();
+        });
+
+        //show accuracy text
+        textSize(48);
+        fill(255,255,255);
+        text(`${this.accuracyText}`,100, 400);
+      } else {
+        textSize(52);
+        text(`press the ENTER key to start this game yay`, width/2, height/2)
+      }
+    }//end of draw
 
     removeHit(){
     return this.movingArrowRight = this.movingArrowRight.filter(arrow =>{
       return ((arrow !== this.activeArrow));
     })
+  }
+
+    removeHitLeft(){
+      return this.movingArrowLeft = this.movingArrowLeft.filter(arrow =>{
+        return ((arrow !== this.activeArrowLeft));
+      })
   }
     
     checkCorrectKey(code){
@@ -106,8 +99,8 @@ class Game {
       //   console.log('you hit the right arrow')
       // }
       //console.log('checkCorrectkey entered', code, this.currentArrow.right, this.multiplier);
-      if (code === 39 ){
-        console.log()
+      if (code === 39){
+        //console.log()
         //console.log('right key is pressed');
         for (let i=0; i<this.movingArrowRight.length; i++){
           let arrow = this.movingArrowRight[i];       
@@ -127,14 +120,48 @@ class Game {
               this.streak++;
               this.accuracyText = 'O.K.';
               this.removeHit();
-            } 
+            } //else {
+              //console.log('you missed') // this one is not detected
+            //}
           } else {
-            console.log('you missed');
+            //console.log('you missed');
+            //if miss and streak are set to 0 here, it's always 0
+          }
+        }
+      }
+    
+      if (code === 37){
+        //console.log('left key is pressed');
+        for (let i=0; i<this.movingArrowLeft.length; i++){
+          let arrow = this.movingArrowLeft[i];       
+          if (arrow.currentArrow.left){
+            console.log('left arrow in reach')
+            if (arrow.multiplier.perfect){
+              this.score += 100;
+              this.streak++;
+              this.accuracyText = 'PERFECT';
+              this.removeHitLeft();
+            } else if (arrow.multiplier.good){
+              this.score += 50;
+              this.streak++;
+              this.accuracyText = 'GOOD';
+              this.removeHitLeft();
+            } else if (arrow.multiplier.bad){
+              this.score += 20;
+              this.streak++;
+              this.accuracyText = 'O.K.';
+              this.removeHitLeft();
+            } //else {
+              //console.log('you missed') // this one is not detected
+            //}
+          } else {
+            //console.log('you missed');
             //if miss and streak are set to 0 here, it's always 0
           }
         }
       }
     }
+  }
       // if (code === 39 && this.currentArrow.right && this.multiplier.perfect){
         
       //   console.log('you hit perfect')
@@ -203,4 +230,3 @@ class Game {
     //   if (this.multiplier.perfect || this.multiplier.good || this.multiplier.bad);
     // }
     
-}
