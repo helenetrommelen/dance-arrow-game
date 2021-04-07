@@ -1,4 +1,6 @@
-#gameScreen {
-    width: 100%;
+#gameContainer {
+    width: 50%;
+    height: 100%;
+    background-color: black;
     border: 1px solid black;
 }

@@ -10,6 +10,12 @@ class Arrow {
     //   bad: false,
     //   miss: false
     // }
+    this.currentArrow ={
+      left: false,
+      down: false,
+      up: false,
+      right: false 
+    }
 
   }
 
@@ -17,15 +23,15 @@ class Arrow {
     //check for collision
   
     if(this.direction === 'right' && this.y > beatLine - 25 && this.y < beatLine + 25){
-      game.currentArrow.right = true;
-      console.log("enter currentArrow.right to true statement", game.currentArrow.right);
+      // console.log("1 enter currentArrow.right to true statement", game.currentArrow.right);//false
+      this.currentArrow.right = true;
+      //console.log("2 enter currentArrow.right to true statement", game.currentArrow.right);//true
       // game.activeArrow = this;
       //console.log(game.activeArrow);
     }if (this.direction === 'right' && (this.y <= beatLine + 2 && this.y >= beatLine - 2)){
-      //console.log('right arrow detected: perfect');
+      console.log('right arrow detected: perfect', game.multiplier.perfect);
       game.multiplier.perfect = true;
-
-
+      console.log('right arrow detected: perfect', game.multiplier.perfect);
     } else if (this.direction === 'right' && (this.y >= beatLine-10 && this.y<beatLine-2) || (this.y > beatLine+2 && this.y <= beatLine+10)){
       //console.log('right arrow detected: good');
       game.multiplier.good = true;
@@ -57,12 +63,12 @@ class Arrow {
     //   game.multiplier.miss = true;
     // }
     else {
-      game.currentArrow.up = false;
-      game.currentArrow.right = false;
+      this.currentArrow.right = false;
       game.multiplier.perfect = false;
       game.multiplier.good = false;
       game.multiplier.bad = false;
       game.multiplier.miss = false;
+      //console.log("2 exit  currentArrow.right to true statement", game.currentArrow.right);
     }
   }
 
@@ -73,6 +79,12 @@ class Arrow {
   //     return false;
   //   }
   // }
+
+  checkWhichArrow(){
+    if (arrow.currentArrow.right){
+      return console.log('current arrow is set to true', arrow.currentArrow.right)
+    } else {return console.log('currentArrow.right is false', arrow.currentArrow.right)}
+  }
 
   draw(){
     this.y--; //speed with wich the arrow moves upwards
