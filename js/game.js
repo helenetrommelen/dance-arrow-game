@@ -16,12 +16,12 @@ class Game {
         this.time;
         this.score = 0;
         this.streak = 0;
-        this.multiplier = {
-          perfect: false,
-          good: false,
-          bad: false,
-          miss: false
-        }
+        // this.multiplier = {
+        //   perfect: false,
+        //   good: false,
+        //   bad: false,
+        //   miss: false
+        // }
         this.wasClicked = false;
         this.songSound;
         this.accuracyText = '';
@@ -106,12 +106,21 @@ class Game {
         //console.log('right key is pressed');
         for (let i=0; i<this.movingArrowRight.length; i++){
           let arrow = this.movingArrowRight[i];       
-          if (arrow.currentArrow.right ){
-            console.log('this is the active arrow', 'perfect:', game.multiplier.perfect,'good:', game.multiplier.good,'bad:', game.multiplier.bad,);
-        
-          this.score += 100;
-          this.streak++;
-          this.accuracyText = 'PERFECT'
+          if (arrow.currentArrow.right){
+            if (arrow.multiplier.perfect){
+              console.log('this is the active arrow', 'perfect:', arrow.multiplier.perfect,'good:', arrow.multiplier.good,'bad:', arrow.multiplier.bad,);      
+              this.score += 100;
+              this.streak++;
+              this.accuracyText = 'PERFECT'
+            } else if (arrow.multiplier.good){
+              this.score += 50;
+              this.streak++;
+              this.accuracyText = 'GOOD'
+            } else if (arrow.multiplier.bad){
+              this.score += 20;
+              this.streak++;
+              this.accuracyText = 'O.K.'
+            }
           } //else {console.log('you miss')}
         }
       }

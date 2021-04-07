@@ -16,6 +16,12 @@ class Arrow {
       up: false,
       right: false 
     }
+    this.multiplier = {
+      perfect: false,
+      good: false,
+      bad: false,
+      miss: false
+    }
 
   }
 
@@ -29,17 +35,17 @@ class Arrow {
       // game.activeArrow = this;
       //console.log(game.activeArrow);
     }if (this.direction === 'right' && (this.y <= beatLine + 2 && this.y >= beatLine - 2)){
-      console.log('right arrow detected: perfect', game.multiplier.perfect);
-      game.multiplier.perfect = true;
-      console.log('right arrow detected: perfect', game.multiplier.perfect);
+      console.log('right arrow detected: perfect', this.multiplier.perfect);
+      this.multiplier.perfect = true;
+      console.log('right arrow detected: perfect', this.multiplier.perfect);
     } else if (this.direction === 'right' && (this.y >= beatLine-10 && this.y<beatLine-2) || (this.y > beatLine+2 && this.y <= beatLine+10)){
       //console.log('right arrow detected: good');
-      game.multiplier.good = true;
+      this.multiplier.good = true;
 
 
     }  else if (this.direction === 'right' && (this.y > beatLine-25 && this.y<beatLine-10) || (this.y > beatLine+10 && this.y < beatLine+25)){
       //console.log('right arrow detected: bad');
-      game.multiplier.bad = true;
+      this.multiplier.bad = true;
 
 }
     // else if (this.direction === 'right' && this.y < beatLine - 25){
@@ -64,10 +70,10 @@ class Arrow {
     // }
     else {
       this.currentArrow.right = false;
-      game.multiplier.perfect = false;
-      game.multiplier.good = false;
-      game.multiplier.bad = false;
-      game.multiplier.miss = false;
+      this.multiplier.perfect = false;
+      this.multiplier.good = false;
+      this.multiplier.bad = false;
+      this.multiplier.miss = false;
       //console.log("2 exit  currentArrow.right to true statement", game.currentArrow.right);
     }
   }
