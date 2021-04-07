@@ -1,38 +1,33 @@
 const game = new Game();
 const beatLine = 120;
-let songSound;
+//let songSound;  
+// let canvas = document.getElementById("gameScreen");
+// let context = canvas.getContext('2d');
+
 
 
 function preload(){
+    // songSound = loadSound("/dance-arrow-game/assets/dance-scene-hq.mp3");
     game.preload();
 }
 
 function setup(){
     createCanvas(1280,720);
+    // songSound.play();
     game.setup();
     
-    // const timeSinceGameStart = millis();
-    // console.log(timeSinceGameStart);
+
 }
 
 function draw(){
     game.draw();
 
-    // console.log(`score`, game.hit);
+
 }
 
 function keyPressed(){
-    game.checkCorrectKey(keyCode);
-    //check if current arrow is ready to be pressed
-    // let score = arrow.hits();
-    // console.log(`score`, game.hit);
-    // if (keyCode === 39 && score==='perfect'){ //right arrow
-    //     console.log('right arrow is pressed')
-    // }
-
-    // if (keyCode === 39){ //right arrow
-    //     console.log('right arrow is pressed')
-    // }
+   // game.checkCorrectKey(keyCode);
+   console.log(game.currentArrow.right);
 }
 
  

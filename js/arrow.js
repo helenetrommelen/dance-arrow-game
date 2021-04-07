@@ -3,7 +3,7 @@ class Arrow {
     this.direction = direction;
     this.arrowImg = arrowImg;
     this.x = x;
-    this.y = height - 500 //they start just cunder the screen: -50
+    this.y = height - 50 //they start just cunder the screen: -50
     // this.targetOpen = {
     //   perfect: false,
     //   good: false,
@@ -18,17 +18,26 @@ class Arrow {
   
     if(this.direction === 'right' && this.y > beatLine - 25 && this.y < beatLine + 25){
       game.currentArrow.right = true;
+      console.log("enter currentArrow.right to true statement", game.currentArrow.right);
+      // game.activeArrow = this;
+      //console.log(game.activeArrow);
     }if (this.direction === 'right' && (this.y <= beatLine + 2 && this.y >= beatLine - 2)){
-      console.log('right arrow detected: perfect');
+      //console.log('right arrow detected: perfect');
       game.multiplier.perfect = true;
-    } else if (this.direction === 'right' && (this.y > beatLine-10 && this.y<beatLine-2) || (this.y > beatLine+2 && this.y < beatLine+10)){
+
+
+    } else if (this.direction === 'right' && (this.y >= beatLine-10 && this.y<beatLine-2) || (this.y > beatLine+2 && this.y <= beatLine+10)){
       //console.log('right arrow detected: good');
       game.multiplier.good = true;
+
+
     }  else if (this.direction === 'right' && (this.y > beatLine-25 && this.y<beatLine-10) || (this.y > beatLine+10 && this.y < beatLine+25)){
       //console.log('right arrow detected: bad');
-      game.multiplier.bad = true;}
-    // } else if (this.direction === 'right' && this.y < beatLine - 25){
-    //   //console.log('right arrow detected: miss')
+      game.multiplier.bad = true;
+
+}
+    // else if (this.direction === 'right' && this.y < beatLine - 25){
+    //   console.log('right arrow detected: miss')
     //   game.multiplier.miss = true;
     // }
 
@@ -53,8 +62,17 @@ class Arrow {
       game.multiplier.perfect = false;
       game.multiplier.good = false;
       game.multiplier.bad = false;
+      game.multiplier.miss = false;
     }
   }
+
+  // clickedSuccesfully(){
+  //   if (game.wasClicked){
+  //     return true;
+  //   } else {
+  //     return false;
+  //   }
+  // }
 
   draw(){
     this.y--; //speed with wich the arrow moves upwards
