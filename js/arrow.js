@@ -29,24 +29,20 @@ class Arrow {
     //check for collision
   
     if(this.direction === 'right' && this.y > beatLine - 25 && this.y < beatLine + 25){
-      // console.log("1 enter currentArrow.right to true statement", game.currentArrow.right);//false
       this.currentArrow.right = true;
-      //console.log("2 enter currentArrow.right to true statement", game.currentArrow.right);//true
-      // game.activeArrow = this;
+      game.activeArrow = this;
       //console.log(game.activeArrow);
     }if (this.direction === 'right' && (this.y <= beatLine + 2 && this.y >= beatLine - 2)){
-      console.log('right arrow detected: perfect', this.multiplier.perfect);
       this.multiplier.perfect = true;
-      console.log('right arrow detected: perfect', this.multiplier.perfect);
+      game.activeArrow = this;
     } else if (this.direction === 'right' && (this.y >= beatLine-10 && this.y<beatLine-2) || (this.y > beatLine+2 && this.y <= beatLine+10)){
       //console.log('right arrow detected: good');
       this.multiplier.good = true;
-
-
+      game.activeArrow = this;
     }  else if (this.direction === 'right' && (this.y > beatLine-25 && this.y<beatLine-10) || (this.y > beatLine+10 && this.y < beatLine+25)){
       //console.log('right arrow detected: bad');
       this.multiplier.bad = true;
-
+      game.activeArrow = this;
 }
     // else if (this.direction === 'right' && this.y < beatLine - 25){
     //   console.log('right arrow detected: miss')

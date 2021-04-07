@@ -92,8 +92,13 @@ class Game {
       
       //console.log(`${timeSinceGameStart} draw`);
       //console.log(`${this.time} draw`);
-
     }
+
+    removeHit(){
+    return this.movingArrowRight = this.movingArrowRight.filter(arrow =>{
+      return ((arrow !== this.activeArrow));
+    })
+  }
     
     checkCorrectKey(code){
       //every time a right key arrow is pressed you loop through arrows in the right arrow array. and for each arrow check.
@@ -108,20 +113,25 @@ class Game {
           let arrow = this.movingArrowRight[i];       
           if (arrow.currentArrow.right){
             if (arrow.multiplier.perfect){
-              console.log('this is the active arrow', 'perfect:', arrow.multiplier.perfect,'good:', arrow.multiplier.good,'bad:', arrow.multiplier.bad,);      
               this.score += 100;
               this.streak++;
-              this.accuracyText = 'PERFECT'
+              this.accuracyText = 'PERFECT';
+              this.removeHit();
             } else if (arrow.multiplier.good){
               this.score += 50;
               this.streak++;
-              this.accuracyText = 'GOOD'
+              this.accuracyText = 'GOOD';
+              this.removeHit();
             } else if (arrow.multiplier.bad){
               this.score += 20;
               this.streak++;
-              this.accuracyText = 'O.K.'
-            }
-          } //else {console.log('you miss')}
+              this.accuracyText = 'O.K.';
+              this.removeHit();
+            } 
+          } else {
+            console.log('you missed');
+            //if miss and streak are set to 0 here, it's always 0
+          }
         }
       }
     }
