@@ -33,7 +33,9 @@ class Arrow {
       this.currentArrow.right = true;
       game.activeArrow = this;
       //console.log(game.activeArrow);
-    }if (this.direction === 'right' && (this.y <= beatLine + 2 && this.y >= beatLine - 2)){
+    }
+    
+    if (this.direction === 'right' && (this.y <= beatLine + 2 && this.y >= beatLine - 2)){
       this.multiplier.perfect = true;
       game.activeArrow = this;
     } else if (this.direction === 'right' && (this.y >= beatLine-10 && this.y<beatLine-2) || (this.y > beatLine+2 && this.y <= beatLine+10)){
@@ -51,14 +53,18 @@ class Arrow {
       this.currentArrow.left = true;
       game.activeArrowLeft = this;
       //console.log(game.activeArrowLeft);
-    }if (this.direction === 'left' && (this.y <= beatLine + 2 && this.y >= beatLine - 2)){
+    }
+    
+    if (this.direction === 'left' && (this.y <= beatLine + 2 && this.y >= beatLine - 2)){
       this.multiplier.perfect = true;
       game.activeArrowLeft = this;
-    } else if (this.direction === 'left' && (this.y >= beatLine-10 && this.y<beatLine-2) || (this.y > beatLine+2 && this.y <= beatLine+10)){
+    } else if (this.direction === 'left' && (this.y >= beatLine-10 && this.y<beatLine-2) || 
+    (this.y > beatLine+2 && this.y <= beatLine+10)){
       //console.log('left arrow detected: good');
       this.multiplier.good = true;
       game.activeArrowLeft = this;
-    }  else if (this.direction === 'left' && (this.y > beatLine-25 && this.y<beatLine-10) || (this.y > beatLine+10 && this.y < beatLine+25)){
+    }  else if (this.direction === 'left' && (this.y > beatLine-25 && this.y<beatLine-10) || 
+    (this.y > beatLine+10 && this.y < beatLine+25)){
       //console.log('left arrow detected: bad');
       this.multiplier.bad = true;
       game.activeArrowLeft = this;

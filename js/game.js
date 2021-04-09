@@ -4,25 +4,66 @@ class Game {
     constructor(){
         this.hasStarted = false;
         this.movingArrowLeft = [];
+        
         // this.movingArrowDown;
-        // this.movingArrowUp;
+        this.movingArrowUp = [];
         this.movingArrowRight = [];
         this.time;
         this.score = 0;
         this.streak = 0;
-        this.wasClicked = false;
+        this.dancingGif;
+
+        this.dancingImages;
+        this.dancing;
         this.songSound;
         this.accuracyText = '';
-        this.activeArrow = [];
-        this.activeArrowLeft = [];
+        this.activeArrow;
+        this.activeArrowLeft;
     }
 
     startGame(){
       this.hasStarted= true;
     }
 
+    gamePlay(){
+      let timeSinceGameStart = millis();
+        this.time = timeSinceGameStart;
+        //console.log(`${this.time} draw`);
+
+        //left arrow
+        if(this.time % 3500 < 20) {
+          this.movingArrowLeft.push(new Arrow(this.movingArrowLeftImg,0, 'left'))
+        }
+
+        //up arrow
+        if(this.time % 6500 < 20) {
+          this.movingArrowUp.push(new Arrow(this.movingArrowUpImg,0, 'up'))
+        }
+
+        //right arrows
+        if(this.time % 2000 < 20) {
+          this.movingArrowRight.push(new Arrow(this.movingArrowRightImg,300, 'right'))
+        }
+
+        this.movingArrowLeft.forEach(function(arrow){
+          arrow.draw();
+        });
+      
+        this.movingArrowRight.forEach(function(arrow){
+          arrow.draw();
+        });
+
+        //show accuracy text
+        textFont(gameFont);
+        textSize(48);
+        fill(255,255,255);
+        text(`${this.accuracyText}`,100, 400);
+    }
+
     preload(){
-        this.backgroundImage = loadImage('/dance-arrow-game/assets/background-1.png');
+        this.backgroundImage = loadImage('/dance-arrow-game/assets/background-2.png');
+        this.dancingGif = loadGif("/dance-arrow-game/assets/twistGif.gif");
+        
 
         //load static arrows in background
         this.staticArrowLeft = loadImage('/dance-arrow-game/assets/arrow-bw-left.png');
@@ -35,10 +76,6 @@ class Game {
         this.movingArrowDownImg = loadImage('/dance-arrow-game/assets/arrow-color-down.png');
         this.movingArrowUpImg = loadImage('/dance-arrow-game/assets/arrow-color-up.png');
         this.movingArrowRightImg = loadImage('/dance-arrow-game/assets/arrow-color-right.png');
-
-        //load sound
-        // soundFormats('mp3', 'ogg');
-        //songSound = loadSound("/dance-arrow-game/assets/dance-scene-hq.mp3");
         
     }
 
@@ -53,31 +90,19 @@ class Game {
       this.background.draw();
 
       if (game.hasStarted){
-        let timeSinceGameStart = millis();
-        this.time = timeSinceGameStart;
-        //console.log(`${this.time} draw`);
-
-        //left arrow
-        if(this.time % 3500 < 20) {
-          this.movingArrowRight.push(new Arrow(this.movingArrowLeftImg,0, 'left'))
+        
+        if(!songSound.isPlaying()){
+          songSound.play();
         }
-
-        //right arrows
-        if(this.time % 2000 < 20) {
-          this.movingArrowRight.push(new Arrow(this.movingArrowRightImg,300, 'right'))
+        if(this.time > 11000){
+          image(this.dancingGif, 600, 220);
         }
-      
-        this.movingArrowRight.forEach(function(arrow){
-          arrow.draw();
-        });
-
-        //show accuracy text
-        textSize(48);
-        fill(255,255,255);
-        text(`${this.accuracyText}`,100, 400);
+        this.gamePlay();
       } else {
-        textSize(52);
-        text(`press the ENTER key to start this game yay`, width/2, height/2)
+        textFont(gameFont);
+        fill(246,255,0);
+        textSize(68);
+        text(`GET READY!`, 300, 300)
       }
     }//end of draw
 
@@ -103,7 +128,8 @@ class Game {
         //console.log()
         //console.log('right key is pressed');
         for (let i=0; i<this.movingArrowRight.length; i++){
-          let arrow = this.movingArrowRight[i];       
+          let arrow = this.movingArrowRight[i];    
+          // arrow', this.activeArrow);   
           if (arrow.currentArrow.right){
             if (arrow.multiplier.perfect){
               this.score += 100;
@@ -120,7 +146,8 @@ class Game {
               this.streak++;
               this.accuracyText = 'O.K.';
               this.removeHit();
-            } //else {
+            } 
+            //else {
               //console.log('you missed') // this one is not detected
             //}
           } else {
@@ -128,25 +155,30 @@ class Game {
             //if miss and streak are set to 0 here, it's always 0
           }
         }
+        // if(!arrow.currentArrow.right){
+        //   console.log('you missed');        
+        // }
       }
     
       if (code === 37){
         //console.log('left key is pressed');
-        for (let i=0; i<this.movingArrowLeft.length; i++){
-          let arrow = this.movingArrowLeft[i];       
-          if (arrow.currentArrow.left){
-            console.log('left arrow in reach')
-            if (arrow.multiplier.perfect){
+        //console.log(this.movingArrowLeft);
+        for (let j=0; j<this.movingArrowLeft.length; j++){
+          let arrowL = this.movingArrowLeft[j];  
+          //console.log('this.active arrow L', this.activeArrowLeft);
+          if (arrowL.currentArrow.left){
+            //console.log('left arrow in reach')
+            if (arrowL.multiplier.perfect){
               this.score += 100;
               this.streak++;
               this.accuracyText = 'PERFECT';
               this.removeHitLeft();
-            } else if (arrow.multiplier.good){
+            } else if (arrowL.multiplier.good){
               this.score += 50;
               this.streak++;
               this.accuracyText = 'GOOD';
               this.removeHitLeft();
-            } else if (arrow.multiplier.bad){
+            } else if (arrowL.multiplier.bad){
               this.score += 20;
               this.streak++;
               this.accuracyText = 'O.K.';
@@ -162,7 +194,7 @@ class Game {
       }
     }
   }
-      // if (code === 39 && this.currentArrow.right && this.multiplier.perfect){
+      // if (code === 39 && this.currentArrowL.right && this.multiplier.perfect){
         
       //   console.log('you hit perfect')
       //   this.score += 100;

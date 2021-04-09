@@ -7,7 +7,11 @@ class Background {
   }
     draw() {
       image(game.backgroundImage, 0, 0, width, height);
-      //console.log('draw background image');
+      //image(game.dancingGif, 600, 200);
+      
+
+      
+      
 
       const yStatArr = 120;
 

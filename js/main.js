@@ -1,6 +1,7 @@
 const game = new Game();
 const beatLine = 120;
-//let songSound;  
+let gameFont;
+let songSound;  
 // let canvas = document.getElementById("gameScreen");
 // let context = canvas.getContext('2d');
 // let sketch = function(p){
@@ -9,14 +10,17 @@ const beatLine = 120;
 // new p5(sketch, window.document.getElementById('container'));
 
 function preload(){
-    // songSound = loadSound("/dance-arrow-game/assets/dance-scene-hq.mp3");
+    songSound = loadSound("/dance-arrow-game/assets/danceSound.mp3");
+    gameFont = loadFont('/dance-arrow-game/assets/PressStart2P-Regular.ttf');
+    
     game.preload();
 }
 
 function setup(){
-    mode = 0;
     createCanvas(1280,720);
-    // songSound.play();
+    //frameRate(50);
+    //createLoop({duration:3, gif:true});
+    
     game.setup();
 }
 
@@ -28,6 +32,7 @@ function keyPressed(){
     if (keyCode === 13 && !game.hasStarted){
         console.log('enter is pressed')
         game.startGame();
+        
     }
    game.checkCorrectKey(keyCode);
    //console.log(game.currentArrow.right);
